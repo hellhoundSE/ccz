@@ -7,7 +7,7 @@ from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
 import time
 import os
-from azure.identity import ManagedIdentityCredential, DefaultAzureCredential
+from azure.identity import DefaultAzureCredential
 
 
 def print_item(group):
@@ -57,6 +57,7 @@ def main():
     client_secret = client.get_secret("client-secret").value
     tenant_id = client.get_secret("tenant-id").value
     subscription_id = client.get_secret("subscription-id").value
+    storage_string_id = client.get_secret("storage-string").value
 
     # This program creates this resource group. If it's an existing resource group, comment out the code that creates the resource group
     rg_name = 'RuslanResourceGroup'
@@ -96,7 +97,7 @@ def main():
 
     # IMPORTANT: specify the name and key of your Azure Storage account.
     storage_string = SecureString(
-        value='DefaultEndpointsProtocol=https;AccountName=ruslanstorageaccount;AccountKey=dgqymIAo36ayJ2O3Ju+iu7UqeJNo0qUDhrmIAW88dKJeSNz41JFYy/3klJixT/ooiaaaUwn9IR4hhmB5rSjAtw==;EndpointSuffix=core.windows.net')
+        value=storage_string_id)
 
     ls_azure_storage = LinkedServiceResource(
         properties=AzureStorageLinkedService(connection_string=storage_string))
